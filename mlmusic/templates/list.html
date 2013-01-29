@@ -1,0 +1,65 @@
+<?template TList { nextPrefix, cmdPrefix, cmdSuffix, allCmd:string option, path, list, title, pb, start, appendName, perItem } ?>
+<html>
+<head>
+<link rel="stylesheet" href="${Conf.static}/css/sing-browse.css" type="text/css" />
+</head>
+<body>
+
+<table id="btable">
+<thead>
+
+<tr id="browseheader">
+<td>
+
+<div id="browseheadertop">
+ <div id="searchbox"><form method="post" action="/search/"><input type="text" name="q"/></form></div>
+ Browse: ${title}
+</div>
+
+<div id="browsepath">
+ <a href="${Conf.static}/home.html">Home</a>
+ <span t:for="(name, link) in path" t:strip=""> &gt; <a href="${link}">${name}</a> </span>
+</div>
+
+<div t:ifOption="pb" id="pagebar">
+ <t:for exp="pb" pattern="(pageOffset, pageLen, itemOffset, char)"><t:if
+   exp="pageOffset <> start"><a
+     href="?start=${Int.toString pageOffset}&amp;len=${Int.toString pageLen
+            }#${Int.toString itemOffset}">${char}</a></t:if><t:if
+   exp="pageOffset = start"><a
+     href="?start=${Int.toString pageOffset}&amp;len=${Int.toString pageLen
+            }#${Int.toString itemOffset}" class="pbCur">${
+  char}</a></t:if>&#8203;</t:for>
+</div>
+
+</td>
+</tr>
+
+</thead>
+<tbody>
+
+<tr id="browsecontent">
+<td>
+<div id="bcd1">
+<div id="bcd2">
+
+ <ul class="browselist">
+  <t:ifOption exp="case list of (_::_::_) => allCmd | _ => NONE" pattern="allCmd'">$H{
+    TListItem.render ("", "All Songs", NONE, false, allCmd', "")
+  }</t:ifOption>
+  <t:for pattern="item" exp="list">$H{
+    perItem item
+
+  }</t:for>
+ </ul>
+
+</div>
+</div>
+</td>
+</tr>
+
+</tbody>
+</table>
+
+</body>
+</html>

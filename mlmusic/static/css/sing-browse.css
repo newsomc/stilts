@@ -1,0 +1,247 @@
+html, body, table, thead, tbody, tr, td, form {
+	margin: 0;
+	padding: 0;
+	border: 0px none;
+	border-collapse: collapse;
+}
+
+body {
+	font-size: 12px;
+	font-family: sans-serif;
+}
+
+#btable {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+#browseheader td {
+	height: 1px;
+	margin: 0;
+	padding: 0;
+}
+
+#browseheadertop {
+	background: #404040;
+	margin: 0;
+	padding: 2px 0 7px 10px;
+	font-weight: bold;
+	font-size: 14px;
+	font-family: sans-serif;
+	color: #dddddd;
+}
+
+#searchbox {
+	float: right;
+	padding: 0 5px 0 0;
+	margin: 0;
+	position: relative;
+	top: -2px;
+}
+
+#searchbox input {
+	font-size: 12px;
+}
+
+#browsepath {
+	margin: 0;
+	padding: 6px 5px 5px 10px;
+	background: #888888;
+	font-size: 11px;
+	color: #dddddd;
+}
+
+#browsepath a {
+	color: #dddddd;
+	text-decoration: none;
+}
+
+#browsepath a:hover {
+	text-decoration: underline;
+}
+
+
+#pagebar {
+	padding: 0 5px 0 8px;
+	background: #bfbfbf;
+	font-size: 11px;
+}
+
+#pagebar a {
+	color: #333333;
+	text-decoration: none;
+	display: inline-block;
+	padding: 2px;
+}
+
+#pagebar a.pbCur {
+	background: #888888;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+#pagebar a:hover {
+	text-decoration: underline;
+}
+
+#browsecontent {
+	font-size: 11px;
+	background: #eeeeee;
+	margin: 0;
+	padding: 0;
+	position: relative;
+}
+
+#browsecontent td {
+	top: 0;
+	vertical-align: top;
+	position: relative;
+	width: 100%;
+}
+
+#bcd1 {
+	height: 100%;
+	width: 100%;
+	position: relative;
+}
+
+#bcd2 {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	overflow: auto;
+}
+
+#browsecontent p {
+	margin: 15px 0 5px 12px;
+	color: #333333;
+}
+
+.browselist {
+	margin: 0;
+	padding: 2px 0 2px 0;
+	border: 0 none;
+}
+
+.browselist li {
+	list-style: none inside;
+	margin: 0 6px;
+	padding: 6px;
+	cursor: pointer;
+	border: 0px solid #eeeeee;
+	min-height: 13px;
+
+        -moz-border-radius:5px;
+        -webkit-border-radius: 5px;
+        -opera-border-radius: 5px;
+        border-radius: 5px;
+	color: #333333;
+	text-decoration: none;
+}
+
+.browselist li a {
+	color: #333333;
+	text-decoration: none;
+}
+
+.browselist li:hover {
+	background: #999999;
+	color: white;
+}
+
+.browselist li:hover a {
+	color: white;
+}
+
+.browselist li a:hover {
+	text-decoration: underline;
+}
+
+.addbutton, .playbutton {
+        width: 17px;
+        height: 17px;
+	border-color: transparent;
+	border-style: solid;
+	-webkit-background-clip: padding;
+	-moz-background-clip: padding;
+	background-clip: padding;
+        margin: 0;
+	padding: 0;
+	float: right;
+	position: relative;
+	top: -6px;
+	left: 6px;
+	background-repeat: no-repeat;
+        background-image: url(../images/browse.gif);
+}
+
+.addbutton {
+        background-position: 0px -25px;
+	border-width: 4px 3px 4px 2px;
+}
+
+.playbutton {
+        background-position: -17px -25px;
+	border-width: 4px 2px 4px 2px;
+}
+
+.browselist li .addbutton, .browselist li .playbutton {
+	display: none;
+}
+
+.browselist li:hover .addbutton, .browselist li:hover .playbutton {
+        display: inline-block;
+}
+
+.homelist li {
+	margin: 0;
+	padding: 0;
+}
+
+.homelist li a {
+	height: 27px;
+	padding: 0;
+}
+
+.homelist li a span {
+	display: block;
+	padding: 6px 0 0 60px;
+	height: 15px;
+}
+
+.homelist li a {
+	color: #333333;
+	display: block;
+	text-decoration: none;
+}
+
+.homelist li:hover a {
+	color: white;
+	text-decoration: underline;
+}
+
+.homelist li a span.i {
+	width: 25px;
+	height: 25px;
+	margin: 1px 0 0 30px;
+	padding: 0;
+	float: left;
+	clear: left;
+	-webkit-background-clip: padding;
+	-moz-background-clip: padding;
+        background-image: url(../images/browse.gif);
+}
+
+#homealbums a span.i {		background-position: -25px 0; }
+#homegenres a span.i {		background-position: -50px 0; }
+#homeyears a span.i {		background-position: -75px 0; }
+#homenew a span.i {		background-position: -100px 0; }
+#homerandom a span.i {		background-position: -125px 0; }
+#homemusic a span.i {		background-position: -150px 0; }
+#homeplaylists a span.i {	background-position: -175px 0; }
+#homesearch a span.i {		background-position: -200px 0; }

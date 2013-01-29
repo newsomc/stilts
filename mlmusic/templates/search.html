@@ -1,0 +1,110 @@
+<?template TSearch (q, results, appendName) ?>
+<html>
+<head>
+<link rel="stylesheet" href="${Conf.static}/css/sing-browse.css" type="text/css" />
+</head>
+<body>
+
+<table id="btable">
+<thead>
+
+<tr id="browseheader">
+<td>
+
+<div id="browseheadertop">
+ <div id="searchbox"><form method="post" action="/search/"><input type="text" name="q" value="${q}"/></form></div>
+ Search
+</div>
+
+<div id="browsepath">
+ <a href="${Conf.static}/home.html">Home</a> &gt; <a href="/search/">Search</a>
+</div>
+
+</td>
+</tr>
+
+</thead>
+<tbody>
+
+<tr id="browsecontent">
+<td>
+<div id="bcd1">
+<div id="bcd2">
+
+ <form method="post" action="/search/">
+  <input type="text" name="q" value="${q}" />
+  <input type="submit" value="Search" />
+ </form>
+
+ <div t:ifOption="results as { artists, albums, songs, itime, ttime }"
+      t:strip="">
+
+  <div t:if="case artists of nil => false | _ => true" t:strip="">
+   <p>Artists matching "${q}": ${Int.toString (length artists)}</p>
+   <ul class="browselist">
+    <t:for exp="artists" pattern="{ id, name, mm_mixable, mb_id, numAlbums }">$H{
+      TListItem.render (id, name, SOME "/browse/artists/", appendName, "artist_id:", "")
+    }</t:for>
+   </ul>
+  </div>
+
+  <div t:if="case albums of nil => false | _ => true" t:strip="">
+   <p>Albums matching "${q}": ${Int.toString (length albums)}</p>
+   <ul class="browselist">
+    <t:for exp="albums" pattern="{ id, name, compilation, artist_id, artist_name, year }">$H{
+      TListItem.render (id, name, SOME "/browse/albums/", appendName, "album_id:", "")
+    }</t:for>
+   </ul>
+  </div>
+
+  <div t:if="case songs of nil => false | _ => true">
+   <p>Songs matching "${q}": ${Int.toString (length songs)}</p>
+   <ul class="browselist">
+    <li t:for="{ id, tracknum, title, album, artists, lossless } in songs">
+     <a href="javascript:top.Sing.ctl.add('track_id:${id}')" class="addbutton"> </a><a
+        href="javascript:top.Sing.ctl.play('track_id:${id}')" class="playbutton"> </a>
+     <a href="/browse/song/${id}/">${title}</a>
+     <t:ifOption exp="album" pattern="{id = aId, title = aTitle}">
+      from <a t:if="appendName" href="/browse/albums/${Int.toString aId}/${WebUtil.urlencode aTitle}/">${aTitle}</a>
+           <a t:if="not appendName" href="/browse/albums/${Int.toString aId}/">${aTitle}</a>
+     </t:ifOption>
+     <t:case exp="artists">
+      <t:of pattern="nil" />
+      <t:of pattern="_">
+       by
+       <t:case exp="appendName">
+        <t:of pattern="true"><t:for exp="artists" pattern="{ id, name }" sep=", "><a
+             href="/browse/artists/${Int.toString id}/${WebUtil.urlencode name}/">${name}</a></t:for></t:of>
+        <t:of pattern="false"><t:for exp="artists" pattern="{ id, name }" sep=", "><a
+             href="/browse/artists/${Int.toString id}/">${name}</a></t:for></t:of>
+       </t:case>
+      </t:of>
+     </t:case>
+     <t:case exp="lossless">
+      <t:of pattern="SOME 1"> &#10029; </t:of>
+      <t:of pattern="_" />
+     </t:case>
+    </li>
+   </ul>
+  </div>
+
+  <div t:if="case (artists, albums, songs) of (nil, nil, nil) => true | _ => false">
+   No search results.
+  </div>
+
+  <p>
+   Time: ${Real.toString ((Time.toReal itime) * 1000.0)} ms index,
+         ${Real.toString ((Time.toReal ttime) * 1000.0)} ms total
+  </p>
+
+  </div>
+</div>
+</div>
+</td>
+</tr>
+
+</tbody>
+</table>
+
+</body>
+</html>

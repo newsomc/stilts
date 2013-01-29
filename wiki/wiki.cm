@@ -1,0 +1,16 @@
+Group is
+	$/basis.cm
+	$/regexp-lib.cm
+
+	../db/sqlite/sqlite.cm
+	../db/squall/squall-tool.cm : tool
+	wiki.squall
+
+	../web/web.cm
+
+	../chiralml/chiralml.cm
+	../web/server/http-server-fn.sml
+	chiral.sml
+
+	templates/templates.cm
+	wiki.sml

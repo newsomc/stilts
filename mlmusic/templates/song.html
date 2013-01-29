@@ -1,0 +1,56 @@
+<?template TSong { title, year, albumId, albumTitle, bitrate, lossless, contentType, url } ?>
+<html>
+<head>
+<link rel="stylesheet" href="${Conf.static}/css/sing-browse.css" type="text/css" />
+</head>
+<body>
+
+<table id="btable">
+<thead>
+
+<tr id="browseheader">
+<td>
+
+<div id="browseheadertop">
+ ${valOf title}
+</div>
+
+<div id="browsepath">
+ <a href="${Conf.static}/home.html">Home</a>
+ &gt;
+ <a href=".">Song Info</a>
+</div>
+
+</td>
+</tr>
+
+</thead>
+<tbody>
+
+<tr id="browsecontent">
+<td>
+<div id="bcd1">
+<div id="bcd2">
+
+ <ul id="browselist">
+  <li>Title: ${valOf title}</li>
+  <li t:ifOption="year">Year: ${Int.toString year}</li>
+  <li t:ifOption="albumTitle">Album: ${albumTitle}</li>
+  <t:case exp="(contentType, bitrate)">
+   <t:of pattern="(SOME ct, SOME br)">
+    <li>Format: ${Int.toString (br div 1000)} kBps ${ct}</li>
+   </t:of>
+   <t:of pattern="_" />
+  </t:case>
+  <li t:ifOption="url">URL: ${url}</li>
+ </ul>
+
+</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>

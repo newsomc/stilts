@@ -1,0 +1,97 @@
+open SquallInput
+
+exception ParseError of string
+
+fun type_lookup "string" = String
+  | type_lookup "int" = Int
+  | type_lookup t = raise ParseError ("Unknown type: \"" ^ t ^ "\"")
+
+fun engine_lookup s =
+      case String.map Char.toLower s of
+        "sqlite" => SQLite
+      | "mysql" => MySQL
+      | _ => raise ParseError ("Unknown engine: \"" ^ s ^ "\"")
+
+%%
+
+%term TOKEN of string
+    | STAR
+    | ARROW
+    | COLON
+    | LBRACE
+    | RBRACE
+    | LPAREN
+    | RPAREN
+    | COMMA
+    | LIST
+    | OPTION
+    | ARRAY
+    | VECTOR
+    | FOLD
+    | UNIT
+    | ENGINE
+    | EOF
+    | SQLDATA of string
+
+%eop EOF
+%noshift EOF
+
+%nonterm START of engine option * sqlfunc list
+       | ITEMS of sqlfunc list
+       | ITEM of sqlfunc
+       | engine of engine 
+       | itype of inbinding
+       | otype of outbinding
+       | reptype of reptype
+       | tupleitems of varspec list
+       | recorditems of (string * varspec) list
+       | sqlseq of string
+       | varspec of varspec
+
+%pos int
+
+%name Squall
+
+%%
+
+START:  engine ITEMS ((SOME engine, ITEMS))
+     |  ITEMS ((NONE, ITEMS))
+
+engine: ENGINE COLON TOKEN (engine_lookup TOKEN)
+
+ITEMS:   ITEM ITEMS (ITEM :: ITEMS)
+     |   ITEM (ITEM :: nil)
+
+ITEM: TOKEN COLON itype ARROW otype sqlseq
+        ({ name = TOKEN1, inb = itype, outb = otype, sql = sqlseq })
+
+itype: LPAREN tupleitems RPAREN (IBtuple tupleitems)
+     | tupleitems (IBtuple tupleitems)
+     | LBRACE recorditems RBRACE (IBrecord recorditems)
+     | UNIT (IBunit)
+
+otype: LPAREN tupleitems RPAREN (OBtuple (Rsingle, tupleitems))
+     | LPAREN tupleitems RPAREN reptype (OBtuple (reptype, tupleitems))
+     | tupleitems (OBtuple (Rsingle, tupleitems))
+     | LBRACE recorditems RBRACE (OBrecord (Rsingle, recorditems))
+     | LBRACE recorditems RBRACE reptype (OBrecord (reptype, recorditems))
+     | UNIT (OBunit)
+
+reptype: LIST (Rlist)
+       | OPTION (Roption)
+       | ARRAY (Rarray)
+       | VECTOR (Rvector)
+       | FOLD (Rfold)
+
+tupleitems: varspec STAR tupleitems (varspec :: tupleitems)
+          | varspec (varspec :: nil)
+
+recorditems: TOKEN COLON varspec COMMA recorditems ((TOKEN, varspec) :: recorditems)
+           | TOKEN COLON varspec ((TOKEN, varspec) :: nil)
+
+varspec: TOKEN OPTION (Voption (type_lookup TOKEN))
+       | TOKEN LIST (Vlist (type_lookup TOKEN))
+       | TOKEN (Vrequired (type_lookup TOKEN))
+
+sqlseq:   SQLDATA sqlseq (SQLDATA ^ sqlseq)
+      |   SQLDATA (SQLDATA)

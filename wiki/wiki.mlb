@@ -1,0 +1,16 @@
+$(SML_LIB)/basis/basis.mlb
+$(SML_LIB)/smlnj-lib/RegExp/regexp-lib.mlb
+../db/sqlite/sqlite.mlb
+wiki.squall.sml
+
+../smelt/tinyxml/tinyxml.mlb
+../web/web.mlb
+
+../chiralml/chiralml.mlb
+../web/server/http-server-fn.sml
+chiral.sml
+
+templates/page.html.sml
+templates/edit.html.sml
+wiki.sml
+main.sml
